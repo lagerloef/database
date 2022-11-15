@@ -1,0 +1,113 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema portafolio
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema portafolio
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `portafolio` DEFAULT CHARACTER SET utf8 ;
+USE `portafolio` ;
+
+-- -----------------------------------------------------
+-- Table `portafolio`.`Persona`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `portafolio`.`Persona` (
+  `id_person` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `about_me` VARCHAR(150) NOT NULL,
+  `url_image` VARCHAR(45) NOT NULL,
+  `url_imagenBack` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_person`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `portafolio`.`experiencia`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `portafolio`.`experiencia` (
+  `id_experiencia` INT NOT NULL AUTO_INCREMENT,
+  `Company` VARCHAR(45) NULL,
+  `ubication` VARCHAR(45) NULL,
+  `url_imagen` VARCHAR(45) NULL,
+  `position` VARCHAR(45) NULL,
+  `activity` VARCHAR(45) NULL,
+  `start_date` DATE NULL,
+  `end_date` DATE NULL,
+  `Persona_id_person` INT NOT NULL,
+  PRIMARY KEY (`id_experiencia`),
+  INDEX `fk_Experiencia_Persona_idx` (`Persona_id_person` ASC) VISIBLE,
+  CONSTRAINT `fk_Experiencia_Persona`
+    FOREIGN KEY (`Persona_id_person`)
+    REFERENCES `portafolio`.`Persona` (`id_person`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `portafolio`.`educacion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `portafolio`.`educacion` (
+  `id_education` INT NOT NULL,
+  `name_institute` VARCHAR(45) NOT NULL,
+  `title` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(100) NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NULL,
+  `Persona_id_person` INT NOT NULL,
+  PRIMARY KEY (`id_education`),
+  INDEX `fk_Education_Persona1_idx` (`Persona_id_person` ASC) VISIBLE,
+  CONSTRAINT `fk_Education_Persona1`
+    FOREIGN KEY (`Persona_id_person`)
+    REFERENCES `portafolio`.`Persona` (`id_person`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `portafolio`.`red_social`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `portafolio`.`red_social` (
+  `id_red` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `url_social_media` VARCHAR(150) NOT NULL,
+  `Persona_id_person` INT NOT NULL,
+  PRIMARY KEY (`id_red`),
+  INDEX `fk_social_media_Persona1_idx` (`Persona_id_person` ASC) VISIBLE,
+  CONSTRAINT `fk_social_media_Persona1`
+    FOREIGN KEY (`Persona_id_person`)
+    REFERENCES `portafolio`.`Persona` (`id_person`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `portafolio`.`habilidades`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `portafolio`.`habilidades` (
+  `id_skill` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `type` VARCHAR(45) NULL,
+  `Persona_id_person` INT NOT NULL,
+  PRIMARY KEY (`id_skill`),
+  INDEX `fk_skill_Persona1_idx` (`Persona_id_person` ASC) VISIBLE,
+  CONSTRAINT `fk_skill_Persona1`
+    FOREIGN KEY (`Persona_id_person`)
+    REFERENCES `portafolio`.`Persona` (`id_person`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
